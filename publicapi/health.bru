@@ -1,0 +1,21 @@
+meta {
+  name: health
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/health
+  body: none
+}
+
+tests {
+  test("status", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("is alive", function() {
+    expect(res.body).to.have.all.keys('alive');
+    expect(res.body.alive).to.equal(true);
+  });
+}

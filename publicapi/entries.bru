@@ -1,0 +1,25 @@
+meta {
+  name: entries
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/entries?category={{first_category}}
+  body: none
+}
+
+query {
+  category: {{first_category}}
+}
+
+tests {
+  test("status", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("check response", function() {
+    expect(res.body).to.have.all.keys('count', 'entries');
+    expect(res.body.count).to.be.above(2);
+  });
+}

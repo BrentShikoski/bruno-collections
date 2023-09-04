@@ -1,0 +1,31 @@
+meta {
+  name: categories
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/categories
+  body: none
+}
+
+vars:post-response {
+  first_category: res.body.categories[0]
+}
+
+tests {
+  test("status", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("headers", function() {
+    expect(res.headers.connection).to.equal('close');
+    expect(res.headers).include({"content-type": "application/json"});
+  });
+  
+  test("check categories", function() {
+    expect(res.body).to.have.all.keys('count', 'categories');
+    expect(res.body.count).to.be.above(20);
+    expect(res.body.categories).to.include('Email');
+  });
+}
